@@ -1,9 +1,8 @@
 import Joi from "@hapi/joi";
 import { Collection, Db } from "mongodb";
-import { IEntity } from "@lindorm-io/common";
+import { IEntity, TObject, TPromise } from "@lindorm-io/core";
 import { Logger } from "@lindorm-io/winston";
 import { RepositoryEntityNotFoundError, RepositoryEntityNotUpdatedError } from "../error";
-import { TObject, TPromise } from "@lindorm-io/global";
 
 export interface IRepository<Entity> {
   create(entity: Entity): Promise<Entity>;

@@ -1,5 +1,5 @@
 # @lindorm-io/mongo
-This package contains Mongo Repository utilities for lindorm.io packages.
+Mongo and Repository tools for lindorm.io packages.
 
 ## Installation
 ```shell script

@@ -1,6 +1,6 @@
 {
   "name": "@lindorm-io/mongo",
-  "description": "Mongo Repository utilities for lindorm.io packages",
+  "description": "Mongo and Repository tools for lindorm.io packages",
   "version": "0.0.2",
   "license": "ISC",
   "main": "dist/index.js",
@@ -36,20 +36,14 @@
     "validate": "npm run test:clear && npm run lint && npm run typecheck && npm run test"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@lindorm-io/core": "^0.0.1",
+    "@lindorm-io/winston": "^0.0.2",
     "lodash": "^4.17.20",
     "mongodb": "^3.6.2"
   },
-  "peerDependencies": {
-    "@hapi/joi": ">=17.1.1",
-    "@lindorm-io/common": ">=0.0.1",
-    "@lindorm-io/global": ">=0.0.1",
-    "@lindorm-io/winston": ">=0.0.1"
-  },
+  "peerDependencies": {},
   "devDependencies": {
-    "@hapi/joi": "^17.1.1",
-    "@lindorm-io/common": "^0.0.1",
-    "@lindorm-io/global": "^0.0.1",
-    "@lindorm-io/winston": "^0.0.1",
     "@types/hapi__joi": "^17.1.6",
     "@types/jest": "^26.0.15",
     "@types/lodash": "^4.14.163",

@@ -1,5 +1,5 @@
 import lodash from "lodash";
-import { TObject } from "@lindorm-io/global";
+import { TObject } from "@lindorm-io/core";
 
 export class MockMongoCursor {
   private _logger: any;

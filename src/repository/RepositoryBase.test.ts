@@ -1,6 +1,6 @@
 import Joi from "@hapi/joi";
 import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
-import { EntityBase } from "@lindorm-io/common";
+import { EntityBase } from "@lindorm-io/core";
 import { MockMongo, MockMongoDatabase } from "../class";
 
 class MockEntity extends EntityBase {

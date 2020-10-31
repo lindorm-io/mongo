@@ -1,4 +1,4 @@
-import { ExtendableError, TObject } from "@lindorm-io/global";
+import { ExtendableError, TObject } from "@lindorm-io/core";
 import { FindAndModifyWriteOpResultObject } from "mongodb";
 
 export class RepositoryEntityNotUpdatedError extends ExtendableError {
