@@ -6,12 +6,6 @@ Mongo and Repository tools for lindorm.io packages.
 npm install --save @lindorm-io/mongo
 ```
 
-### Peer Dependencies
-This package has the following peer dependencies: 
-* [@lindorm-io/common](https://www.npmjs.com/package/@lindorm-io/common)
-* [@lindorm-io/global](https://www.npmjs.com/package/@lindorm-io/global)
-* [@lindorm-io/winston](https://www.npmjs.com/package/@lindorm-io/winston)
-
 ## Usage
 
 ### Mongo Connection
