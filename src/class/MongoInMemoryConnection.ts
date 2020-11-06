@@ -117,11 +117,11 @@ export class MongoInMemoryClient {
     this.databases = {};
   }
 
-  public db(name: string): Promise<MongoInMemoryDatabase> {
+  public db(name: string): MongoInMemoryDatabase {
     if (!this.databases[name]) {
       this.databases[name] = new MongoInMemoryDatabase(name);
     }
-    return Promise.resolve(this.databases[name]);
+    return this.databases[name];
   }
 
   public close(): Promise<void> {
@@ -137,17 +137,11 @@ export class MongoInMemoryConnection {
 
   constructor(options: IMongoConnectionOptions) {
     this.options = options;
-  }
-
-  public async connect(): Promise<void> {
     this.client = new MongoInMemoryClient();
-    this.database = await this.client.db(this.options.name);
+    this.database = this.client.db(this.options.name);
   }
 
   public db(): MongoInMemoryDatabase {
-    if (!this.database) {
-      throw new Error("You must connect() before you can get db()");
-    }
     return this.database;
   }
 

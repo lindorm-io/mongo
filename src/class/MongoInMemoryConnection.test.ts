@@ -20,8 +20,7 @@ describe("MockMongoConnection", () => {
     });
 
     test("should return a database", async () => {
-      await mongo.connect();
-      const database = await mongo.db();
+      const database = mongo.db();
 
       expect(database).toStrictEqual(expect.any(MongoInMemoryDatabase));
       expect(mongo.client.databases["database"]).toStrictEqual(expect.any(MongoInMemoryDatabase));
@@ -29,8 +28,7 @@ describe("MockMongoConnection", () => {
     });
 
     test("should return a collection", async () => {
-      await mongo.connect();
-      const database = await mongo.db();
+      const database = mongo.db();
       const collection = await database.collection("collection");
 
       expect(collection).toStrictEqual(expect.any(MongoInMemoryCollection));
@@ -49,8 +47,7 @@ describe("MockMongoConnection", () => {
         port: 25000,
         name: "database",
       });
-      await mongo.connect();
-      const database = await mongo.db();
+      const database = mongo.db();
 
       collection = await database.collection("collection");
 

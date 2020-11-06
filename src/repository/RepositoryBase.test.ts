@@ -56,8 +56,6 @@ describe("RepositoryBase.ts", () => {
       port: 999,
       name: "database",
     });
-    await mongo.connect();
-
     database = mongo.db();
     repository = new MockRepository({
       db: database,
