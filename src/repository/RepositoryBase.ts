@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 import { Collection, Db } from "mongodb";
 import { IEntity, TObject, TPromise } from "@lindorm-io/core";
 import { Logger } from "@lindorm-io/winston";
-import { MongoInMemoryCollection, MongoInMemoryDatabase } from "../class";
+import { MongoInMemoryCollection, MongoInMemoryDatabase } from "../class/MongoInMemoryConnection";
 import { RepositoryEntityNotFoundError, RepositoryEntityNotUpdatedError } from "../error";
 
 export interface IRepository<Entity> {

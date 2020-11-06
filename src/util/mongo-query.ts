@@ -1,6 +1,7 @@
-import { IMongoConnectionOptions, MongoConnection } from "../class";
+import { IMongoConnectionOptions } from "../typing";
 import { IRepositoryOptions } from "../repository";
 import { Logger } from "@lindorm-io/winston";
+import { MongoConnection } from "../class";
 
 export type IDbQueryCallback = (options: IRepositoryOptions) => Promise<void>;
 

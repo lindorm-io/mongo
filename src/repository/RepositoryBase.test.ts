@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
 import { EntityBase } from "@lindorm-io/core";
 import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
-import { MongoInMemoryConnection, MongoInMemoryDatabase } from "../class";
+import { MongoInMemoryConnection, MongoInMemoryDatabase } from "../class/MongoInMemoryConnection";
 
 class MockEntity extends EntityBase {
   public name: string;

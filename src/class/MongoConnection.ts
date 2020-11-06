@@ -1,12 +1,5 @@
 import { Db, MongoClient } from "mongodb";
-
-export interface IMongoConnectionOptions {
-  user: string;
-  password: string;
-  host: string;
-  port: number;
-  name: string;
-}
+import { IMongoConnectionOptions } from "../typing";
 
 export class MongoConnection {
   private options: IMongoConnectionOptions;

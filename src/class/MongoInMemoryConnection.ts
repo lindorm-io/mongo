@@ -1,6 +1,6 @@
 import lodash from "lodash";
 import { TObject } from "@lindorm-io/core";
-import { IMongoConnectionOptions } from "./MongoConnection";
+import { IMongoConnectionOptions } from "../typing";
 
 export class MongoInMemoryCursor {
   public data: Array<TObject<any>>;
