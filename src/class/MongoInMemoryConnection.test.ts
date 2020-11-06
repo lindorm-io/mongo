@@ -1,64 +1,56 @@
 import {
-  MockMongo,
-  MockMongoClient,
-  MockMongoCollection,
-  MockMongoCursor,
-  MockMongoDatabase,
-} from "./MockMongoConnection";
+  MongoInMemoryConnection,
+  MongoInMemoryCollection,
+  MongoInMemoryCursor,
+  MongoInMemoryDatabase,
+} from "./MongoInMemoryConnection";
 
 describe("MockMongoConnection", () => {
   describe("initializations", () => {
-    let mongo: MockMongo;
+    let mongo: MongoInMemoryConnection;
 
     beforeEach(() => {
-      mongo = new MockMongo({
+      mongo = new MongoInMemoryConnection({
         user: "user",
         password: "password",
         host: "host",
         port: 25000,
-        name: "name",
+        name: "database",
       });
     });
 
-    test("should return a client", async () => {
-      const client = await mongo.connect();
-
-      expect(client).toStrictEqual(expect.any(MockMongoClient));
-      expect(mongo.client).toStrictEqual(expect.any(MockMongoClient));
-    });
-
     test("should return a database", async () => {
-      const client = await mongo.connect();
-      const database = await client.db("database");
+      await mongo.connect();
+      const database = await mongo.db();
 
-      expect(database).toStrictEqual(expect.any(MockMongoDatabase));
-      expect(client.databases["database"]).toStrictEqual(expect.any(MockMongoDatabase));
+      expect(database).toStrictEqual(expect.any(MongoInMemoryDatabase));
+      expect(mongo.client.databases["database"]).toStrictEqual(expect.any(MongoInMemoryDatabase));
       expect(database.databaseName).toBe("database");
     });
 
     test("should return a collection", async () => {
-      const client = await mongo.connect();
-      const database = await client.db("database");
+      await mongo.connect();
+      const database = await mongo.db();
       const collection = await database.collection("collection");
 
-      expect(collection).toStrictEqual(expect.any(MockMongoCollection));
-      expect(database.collections["collection"]).toStrictEqual(expect.any(MockMongoCollection));
+      expect(collection).toStrictEqual(expect.any(MongoInMemoryCollection));
+      expect(database.collections["collection"]).toStrictEqual(expect.any(MongoInMemoryCollection));
     });
   });
 
   describe("collections", () => {
-    let collection: MockMongoCollection;
+    let collection: MongoInMemoryCollection;
 
     beforeEach(async () => {
-      const mongo = new MockMongo({
+      const mongo = new MongoInMemoryConnection({
         user: "user",
         password: "password",
         host: "host",
         port: 25000,
-        name: "name",
+        name: "database",
       });
-      const client = await mongo.connect();
-      const database = await client.db("database");
+      await mongo.connect();
+      const database = await mongo.db();
 
       collection = await database.collection("collection");
 
@@ -159,7 +151,7 @@ describe("MockMongoConnection", () => {
     test("should find many", async () => {
       const cursor = await collection.find({ group: 1 });
 
-      await expect(cursor).toStrictEqual(expect.any(MockMongoCursor));
+      await expect(cursor).toStrictEqual(expect.any(MongoInMemoryCursor));
 
       expect(cursor.data).toStrictEqual([
         {

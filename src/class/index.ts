@@ -1,2 +1,2 @@
-export * from "./MockMongoConnection";
+export * from "./MongoInMemoryConnection";
 export * from "./MongoConnection";

@@ -2,7 +2,7 @@ import lodash from "lodash";
 import { TObject } from "@lindorm-io/core";
 import { IMongoConnectionOptions } from "./MongoConnection";
 
-export class MockMongoCursor {
+export class MongoInMemoryCursor {
   public data: Array<TObject<any>>;
 
   constructor(data: Array<TObject<any>>) {
@@ -14,7 +14,7 @@ export class MockMongoCursor {
   }
 }
 
-export class MockMongoCollection {
+export class MongoInMemoryCollection {
   public data: Array<TObject<any>>;
   public indices: Array<TObject<any>>;
 
@@ -70,8 +70,8 @@ export class MockMongoCollection {
     return Promise.resolve(lodash.find(this.data, filter));
   }
 
-  public find(filter: TObject<any>): Promise<MockMongoCursor> {
-    return Promise.resolve(new MockMongoCursor(lodash.filter(this.data, filter)));
+  public find(filter: TObject<any>): Promise<MongoInMemoryCursor> {
+    return Promise.resolve(new MongoInMemoryCursor(lodash.filter(this.data, filter)));
   }
 
   public findOneAndDelete(filter: TObject<any>): Promise<any> {
@@ -93,8 +93,8 @@ export class MockMongoCollection {
   }
 }
 
-export class MockMongoDatabase {
-  public collections: TObject<MockMongoCollection>;
+export class MongoInMemoryDatabase {
+  public collections: TObject<MongoInMemoryCollection>;
   public databaseName: string;
 
   constructor(name: string) {
@@ -102,41 +102,56 @@ export class MockMongoDatabase {
     this.databaseName = name;
   }
 
-  public collection(name: string): Promise<MockMongoCollection> {
+  public collection(name: string): Promise<MongoInMemoryCollection> {
     if (!this.collections[name]) {
-      this.collections[name] = new MockMongoCollection();
+      this.collections[name] = new MongoInMemoryCollection();
     }
     return Promise.resolve(this.collections[name]);
   }
 }
 
-export class MockMongoClient {
-  public databases: TObject<MockMongoDatabase>;
+export class MongoInMemoryClient {
+  public databases: TObject<MongoInMemoryDatabase>;
 
   constructor() {
     this.databases = {};
   }
 
-  public db(name: string): Promise<MockMongoDatabase> {
+  public db(name: string): Promise<MongoInMemoryDatabase> {
     if (!this.databases[name]) {
-      this.databases[name] = new MockMongoDatabase(name);
+      this.databases[name] = new MongoInMemoryDatabase(name);
     }
     return Promise.resolve(this.databases[name]);
   }
 
   public close(): Promise<void> {
+    this.databases = {};
     return Promise.resolve();
   }
 }
 
-export class MockMongo {
-  public client: MockMongoClient;
+export class MongoInMemoryConnection {
+  public options: IMongoConnectionOptions;
+  public client: MongoInMemoryClient;
+  public database: MongoInMemoryDatabase;
 
-  constructor(_: IMongoConnectionOptions) {
-    this.client = new MockMongoClient();
+  constructor(options: IMongoConnectionOptions) {
+    this.options = options;
   }
 
-  public connect(): Promise<MockMongoClient> {
-    return Promise.resolve(this.client);
+  public async connect(): Promise<void> {
+    this.client = new MongoInMemoryClient();
+    this.database = await this.client.db(this.options.name);
+  }
+
+  public db(): MongoInMemoryDatabase {
+    if (!this.database) {
+      throw new Error("You must connect() before you can get db()");
+    }
+    return this.database;
+  }
+
+  public async disconnect(): Promise<void> {
+    await this.client.close();
   }
 }

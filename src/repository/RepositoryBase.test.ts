@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
-import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
 import { EntityBase } from "@lindorm-io/core";
-import { MockMongo, MockMongoDatabase } from "../class";
+import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
+import { MongoInMemoryConnection, MongoInMemoryDatabase } from "../class";
 
 class MockEntity extends EntityBase {
   public name: string;
@@ -45,22 +45,21 @@ class MockRepository extends RepositoryBase<MockEntity> {
 }
 
 describe("RepositoryBase.ts", () => {
-  let database: MockMongoDatabase;
+  let database: MongoInMemoryDatabase;
   let repository: MockRepository;
 
   beforeEach(async () => {
-    const mongo = new MockMongo({
+    const mongo = new MongoInMemoryConnection({
       user: "user",
       password: "password",
       host: "host",
       port: 999,
-      name: "name",
+      name: "database",
     });
-    const client = await mongo.connect();
+    await mongo.connect();
 
-    database = await client.db("database");
+    database = mongo.db();
     repository = new MockRepository({
-      // @ts-ignore
       db: database,
       logger: {
         // @ts-ignore
