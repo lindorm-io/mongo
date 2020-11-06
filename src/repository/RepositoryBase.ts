@@ -111,7 +111,7 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
 
     const result = await this.collection.findOneAndUpdate(filter, { $set: payload });
     const success =
-      result.ok && result.value && result.lastErrorObject.n === 1 && result.lastErrorObject.updatedExisting;
+      result.ok && result.value && result.lastErrorObject?.n === 1 && result.lastErrorObject?.updatedExisting;
 
     this.logger.debug("findOneAndUpdate", {
       filter: Object.keys({ id }),

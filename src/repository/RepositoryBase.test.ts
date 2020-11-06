@@ -49,8 +49,14 @@ describe("RepositoryBase.ts", () => {
   let repository: MockRepository;
 
   beforeEach(async () => {
-    const mongo = new MockMongo({ log: jest.fn() });
-    const client = await mongo.connect("client", { mock: true });
+    const mongo = new MockMongo({
+      user: "user",
+      password: "password",
+      host: "host",
+      port: 999,
+      name: "name",
+    });
+    const client = await mongo.connect();
 
     database = await client.db("database");
     repository = new MockRepository({

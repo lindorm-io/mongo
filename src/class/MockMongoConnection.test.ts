@@ -11,18 +11,24 @@ describe("MockMongoConnection", () => {
     let mongo: MockMongo;
 
     beforeEach(() => {
-      mongo = new MockMongo({ log: jest.fn() });
+      mongo = new MockMongo({
+        user: "user",
+        password: "password",
+        host: "host",
+        port: 25000,
+        name: "name",
+      });
     });
 
     test("should return a client", async () => {
-      const client = await mongo.connect("client", { mock: true });
+      const client = await mongo.connect();
 
       expect(client).toStrictEqual(expect.any(MockMongoClient));
       expect(mongo.client).toStrictEqual(expect.any(MockMongoClient));
     });
 
     test("should return a database", async () => {
-      const client = await mongo.connect("client", { mock: true });
+      const client = await mongo.connect();
       const database = await client.db("database");
 
       expect(database).toStrictEqual(expect.any(MockMongoDatabase));
@@ -31,7 +37,7 @@ describe("MockMongoConnection", () => {
     });
 
     test("should return a collection", async () => {
-      const client = await mongo.connect("client", { mock: true });
+      const client = await mongo.connect();
       const database = await client.db("database");
       const collection = await database.collection("collection");
 
@@ -44,8 +50,14 @@ describe("MockMongoConnection", () => {
     let collection: MockMongoCollection;
 
     beforeEach(async () => {
-      const mongo = new MockMongo({ log: jest.fn() });
-      const client = await mongo.connect("client", { mock: true });
+      const mongo = new MockMongo({
+        user: "user",
+        password: "password",
+        host: "host",
+        port: 25000,
+        name: "name",
+      });
+      const client = await mongo.connect();
       const database = await client.db("database");
 
       collection = await database.collection("collection");
