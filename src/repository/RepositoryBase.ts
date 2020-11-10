@@ -76,8 +76,9 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
   protected abstract getEntityJSON(entity: Entity): IEntity;
 
   async create(entity: Entity): Promise<Entity> {
-    const json = this.getEntityJSON(entity);
     const start = Date.now();
+
+    const json = this.getEntityJSON(entity);
 
     await this.schema.validateAsync(json);
     await this.promise();
@@ -94,6 +95,8 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
   }
 
   async update(entity: Entity): Promise<Entity> {
+    const start = Date.now();
+
     const currentVersion = entity.version;
 
     entity.updated = new Date();
@@ -101,7 +104,6 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
 
     const json = this.getEntityJSON(entity);
     const { id, ...payload } = json;
-    const start = Date.now();
     const filter = {
       id,
       version: { $eq: currentVersion },
@@ -172,8 +174,9 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
   }
 
   async remove(entity: Entity): Promise<void> {
-    const { id } = this.getEntityJSON(entity);
     const start = Date.now();
+
+    const { id } = this.getEntityJSON(entity);
 
     await this.promise();
 
