@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MockMongoConnection collections should create index 1`] = `
+Array [
+  Object {
+    "index": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "opts": true,
+    },
+  },
+]
+`;
+
+exports[`MockMongoConnection collections should delete many 1`] = `
+Object {
+  "result": Object {
+    "n": 2,
+    "ok": true,
+  },
+}
+`;
+
+exports[`MockMongoConnection collections should delete many 2`] = `
+Array [
+  Object {
+    "group": 2,
+    "id": 3,
+    "name": "three",
+    "version": 1,
+  },
+]
+`;
+
+exports[`MockMongoConnection collections should delete one 1`] = `
+Object {
+  "ok": true,
+}
+`;
+
+exports[`MockMongoConnection collections should delete one 2`] = `
+Array [
+  Object {
+    "group": 1,
+    "id": 2,
+    "name": "two",
+    "version": 1,
+  },
+  Object {
+    "group": 2,
+    "id": 3,
+    "name": "three",
+    "version": 1,
+  },
+]
+`;
+
+exports[`MockMongoConnection collections should find many 1`] = `
+Array [
+  Object {
+    "group": 1,
+    "id": 1,
+    "name": "one",
+    "version": 1,
+  },
+  Object {
+    "group": 1,
+    "id": 2,
+    "name": "two",
+    "version": 1,
+  },
+]
+`;
+
+exports[`MockMongoConnection collections should find many 2`] = `
+Array [
+  Object {
+    "group": 1,
+    "id": 1,
+    "name": "one",
+    "version": 1,
+  },
+  Object {
+    "group": 1,
+    "id": 2,
+    "name": "two",
+    "version": 1,
+  },
+]
+`;
+
+exports[`MockMongoConnection collections should find one 1`] = `
+Object {
+  "group": 1,
+  "id": 1,
+  "name": "one",
+  "version": 1,
+}
+`;
+
+exports[`MockMongoConnection collections should insert one 1`] = `
+Object {
+  "result": Object {
+    "ok": true,
+  },
+}
+`;
+
+exports[`MockMongoConnection collections should insert one 2`] = `
+Array [
+  Object {
+    "group": 1,
+    "id": 1,
+    "name": "one",
+    "version": 1,
+  },
+  Object {
+    "group": 1,
+    "id": 2,
+    "name": "two",
+    "version": 1,
+  },
+  Object {
+    "group": 2,
+    "id": 3,
+    "name": "three",
+    "version": 1,
+  },
+  Object {
+    "group": 3,
+    "id": 4,
+    "name": "four",
+    "version": 1,
+  },
+]
+`;
+
+exports[`MockMongoConnection collections should update one 1`] = `
+Object {
+  "lastErrorObject": Object {
+    "n": 1,
+    "updatedExisting": 1,
+  },
+  "ok": true,
+  "value": 1,
+}
+`;
+
+exports[`MockMongoConnection collections should update one 2`] = `
+Array [
+  Object {
+    "group": 1,
+    "id": 2,
+    "name": "two",
+    "version": 1,
+  },
+  Object {
+    "group": 2,
+    "id": 3,
+    "name": "three",
+    "version": 1,
+  },
+  Object {
+    "group": 1,
+    "id": 1,
+    "name": "changed",
+    "version": 2,
+  },
+]
+`;

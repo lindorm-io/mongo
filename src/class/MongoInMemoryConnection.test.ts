@@ -1,9 +1,16 @@
+import MockDate from "mockdate";
 import {
   MongoInMemoryConnection,
   MongoInMemoryCollection,
   MongoInMemoryCursor,
   MongoInMemoryDatabase,
 } from "./MongoInMemoryConnection";
+
+jest.mock("uuid", () => ({
+  v4: () => "e397bc49-849e-4df6-a536-7b9fa3574ace",
+}));
+
+MockDate.set("2020-01-01 08:00:00.000");
 
 describe("MockMongoConnection", () => {
   describe("initializations", () => {
@@ -59,49 +66,13 @@ describe("MockMongoConnection", () => {
     test("should create index", async () => {
       await expect(collection.createIndex({ id: 1 }, { opts: true })).resolves.toBe(undefined);
 
-      expect(collection.indices).toStrictEqual([
-        {
-          index: {
-            id: 1,
-          },
-          options: {
-            opts: true,
-          },
-        },
-      ]);
+      expect(collection.indices).toMatchSnapshot();
     });
 
     test("should insert one", async () => {
-      await expect(collection.insertOne({ id: 4, name: "four", group: 3, version: 1 })).resolves.toStrictEqual({
-        result: { ok: true },
-      });
+      await expect(collection.insertOne({ id: 4, name: "four", group: 3, version: 1 })).resolves.toMatchSnapshot();
 
-      expect(collection.data).toStrictEqual([
-        {
-          group: 1,
-          id: 1,
-          name: "one",
-          version: 1,
-        },
-        {
-          group: 1,
-          id: 2,
-          name: "two",
-          version: 1,
-        },
-        {
-          group: 2,
-          id: 3,
-          name: "three",
-          version: 1,
-        },
-        {
-          group: 3,
-          id: 4,
-          name: "four",
-          version: 1,
-        },
-      ]);
+      expect(collection.data).toMatchSnapshot();
     });
 
     test("should update one", async () => {
@@ -110,39 +81,13 @@ describe("MockMongoConnection", () => {
           { id: 1, version: { $eq: 1 } },
           { $set: { name: "changed", group: 1, version: 2 } },
         ),
-      ).resolves.toStrictEqual({
-        lastErrorObject: {
-          n: 1,
-          updatedExisting: 1,
-        },
-        ok: true,
-        value: 1,
-      });
+      ).resolves.toMatchSnapshot();
 
-      expect(collection.data).toStrictEqual([
-        {
-          group: 1,
-          id: 2,
-          name: "two",
-          version: 1,
-        },
-        {
-          group: 2,
-          id: 3,
-          name: "three",
-          version: 1,
-        },
-        {
-          group: 1,
-          id: 1,
-          name: "changed",
-          version: 2,
-        },
-      ]);
+      expect(collection.data).toMatchSnapshot();
     });
 
     test("should find one", async () => {
-      await expect(collection.findOne({ id: 1 })).resolves.toStrictEqual({ id: 1, name: "one", group: 1, version: 1 });
+      await expect(collection.findOne({ id: 1 })).resolves.toMatchSnapshot();
     });
 
     test("should find many", async () => {
@@ -150,74 +95,23 @@ describe("MockMongoConnection", () => {
 
       await expect(cursor).toStrictEqual(expect.any(MongoInMemoryCursor));
 
-      expect(cursor.data).toStrictEqual([
-        {
-          group: 1,
-          id: 1,
-          name: "one",
-          version: 1,
-        },
-        {
-          group: 1,
-          id: 2,
-          name: "two",
-          version: 1,
-        },
-      ]);
+      expect(cursor.data).toMatchSnapshot();
 
       const array = await cursor.toArray();
 
-      expect(array).toStrictEqual([
-        {
-          group: 1,
-          id: 1,
-          name: "one",
-          version: 1,
-        },
-        {
-          group: 1,
-          id: 2,
-          name: "two",
-          version: 1,
-        },
-      ]);
+      expect(array).toMatchSnapshot();
     });
 
     test("should delete one", async () => {
-      await expect(collection.findOneAndDelete({ id: 1 })).resolves.toStrictEqual({ ok: true });
+      await expect(collection.findOneAndDelete({ id: 1 })).resolves.toMatchSnapshot();
 
-      expect(collection.data).toStrictEqual([
-        {
-          group: 1,
-          id: 2,
-          name: "two",
-          version: 1,
-        },
-        {
-          group: 2,
-          id: 3,
-          name: "three",
-          version: 1,
-        },
-      ]);
+      expect(collection.data).toMatchSnapshot();
     });
 
     test("should delete many", async () => {
-      await expect(collection.deleteMany({ group: 1 })).resolves.toStrictEqual({
-        result: {
-          ok: true,
-          n: 2,
-        },
-      });
+      await expect(collection.deleteMany({ group: 1 })).resolves.toMatchSnapshot();
 
-      expect(collection.data).toStrictEqual([
-        {
-          group: 2,
-          id: 3,
-          name: "three",
-          version: 1,
-        },
-      ]);
+      expect(collection.data).toMatchSnapshot();
     });
   });
 });

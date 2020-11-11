@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RepositoryBase.ts should create entity 1`] = `
+MockEntity {
+  "_created": 2020-01-01T07:00:00.000Z,
+  "_events": Array [],
+  "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+  "_updated": 2020-01-01T07:00:00.000Z,
+  "_version": 0,
+  "name": "e1",
+}
+`;
+
+exports[`RepositoryBase.ts should find entity 1`] = `
+MockEntity {
+  "_created": 2020-01-01T07:00:00.000Z,
+  "_events": Array [],
+  "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+  "_updated": 2020-01-01T07:00:00.000Z,
+  "_version": 0,
+  "name": "e1",
+}
+`;
+
+exports[`RepositoryBase.ts should find many entities 1`] = `
+Array [
+  MockEntity {
+    "_created": 2020-01-01T07:00:00.000Z,
+    "_events": Array [],
+    "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+    "_updated": 2020-01-01T07:00:00.000Z,
+    "_version": 0,
+    "name": "ex",
+  },
+  MockEntity {
+    "_created": 2020-01-01T07:00:00.000Z,
+    "_events": Array [],
+    "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+    "_updated": 2020-01-01T07:00:00.000Z,
+    "_version": 0,
+    "name": "ex",
+  },
+]
+`;
+
+exports[`RepositoryBase.ts should remove many entities 1`] = `
+Array [
+  MockEntity {
+    "_created": 2020-01-01T07:00:00.000Z,
+    "_events": Array [],
+    "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+    "_updated": 2020-01-01T07:00:00.000Z,
+    "_version": 0,
+    "name": "e3",
+  },
+]
+`;
+
+exports[`RepositoryBase.ts should remove one entity 1`] = `Array []`;
+
+exports[`RepositoryBase.ts should run setup on any method 1`] = `
+Array [
+  Object {
+    "index": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "unique": true,
+    },
+  },
+]
+`;
+
+exports[`RepositoryBase.ts should update entity 1`] = `
+MockEntity {
+  "_created": 2020-01-01T07:00:00.000Z,
+  "_events": Array [],
+  "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+  "_updated": 2020-01-01T07:00:00.000Z,
+  "_version": 1,
+  "name": "changed",
+}
+`;

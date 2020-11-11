@@ -1,7 +1,14 @@
 import Joi from "@hapi/joi";
+import MockDate from "mockdate";
 import { EntityBase } from "@lindorm-io/core";
 import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
 import { MongoInMemoryConnection, MongoInMemoryDatabase } from "../class/MongoInMemoryConnection";
+
+jest.mock("uuid", () => ({
+  v4: () => "e397bc49-849e-4df6-a536-7b9fa3574ace",
+}));
+
+MockDate.set("2020-01-01 08:00:00.000");
 
 class MockEntity extends EntityBase {
   public name: string;
@@ -72,23 +79,14 @@ describe("RepositoryBase.ts", () => {
     await repository.create(new MockEntity({ name: "mock" }));
     const collection = database.collections["MockRepository"];
 
-    expect(collection.indices).toStrictEqual([
-      {
-        index: {
-          id: 1,
-        },
-        options: {
-          unique: true,
-        },
-      },
-    ]);
+    expect(collection.indices).toMatchSnapshot();
   });
 
   test("should create entity", async () => {
     const e1 = new MockEntity({ name: "e1" });
     const created = await repository.create(e1);
 
-    expect(created).toStrictEqual(e1);
+    expect(created).toMatchSnapshot();
   });
 
   test("should update entity", async () => {
@@ -99,7 +97,7 @@ describe("RepositoryBase.ts", () => {
 
     const updated = await repository.update(created);
 
-    expect(updated).toStrictEqual(created);
+    expect(updated).toMatchSnapshot();
   });
 
   test("should find entity", async () => {
@@ -108,7 +106,7 @@ describe("RepositoryBase.ts", () => {
 
     const found = await repository.find({ name: "e1" });
 
-    expect(found).toStrictEqual(e1);
+    expect(found).toMatchSnapshot();
   });
 
   test("should find many entities", async () => {
@@ -120,7 +118,7 @@ describe("RepositoryBase.ts", () => {
 
     const found = await repository.findMany({ name: "ex" });
 
-    expect(found).toStrictEqual([e1, e2]);
+    expect(found).toMatchSnapshot();
   });
 
   test("should remove one entity", async () => {
@@ -132,7 +130,7 @@ describe("RepositoryBase.ts", () => {
 
     await repository.remove(e1);
 
-    await expect(repository.findMany({})).resolves.toStrictEqual([e2]);
+    await expect(repository.findMany({})).resolves.toMatchSnapshot();
   });
 
   test("should remove many entities", async () => {
@@ -146,6 +144,6 @@ describe("RepositoryBase.ts", () => {
 
     await repository.removeMany({ name: "ex" });
 
-    await expect(repository.findMany({})).resolves.toStrictEqual([e3]);
+    await expect(repository.findMany({})).resolves.toMatchSnapshot();
   });
 });
