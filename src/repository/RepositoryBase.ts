@@ -150,7 +150,7 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
     return this.createEntity(result);
   }
 
-  async findMany(filter: TObject<any>): Promise<Array<Entity>> {
+  async findMany(filter: TObject<any> = {}): Promise<Array<Entity>> {
     const start = Date.now();
 
     await this.promise();
