@@ -1,7 +1,7 @@
-import { IMongoConnectionOptions } from "../typing";
 import { IRepositoryOptions } from "../repository";
 import { Logger } from "@lindorm-io/winston";
-import { MongoConnection } from "../class";
+import { IMongoConnectionOptions } from "../typing";
+import { MongoConnection } from "../infrastructure";
 
 export type IDbQueryCallback = (options: IRepositoryOptions) => Promise<void>;
 
@@ -14,7 +14,7 @@ export const mongoQuery = async (options: IMongoQuery, callback: IDbQueryCallbac
   const mongo = new MongoConnection(options.mongoOptions);
 
   await mongo.connect();
-  const db = await mongo.db();
+  const db = await mongo.getDatabase();
 
   await callback({ db, logger: options.logger });
 

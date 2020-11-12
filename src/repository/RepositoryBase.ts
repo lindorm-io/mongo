@@ -1,9 +1,8 @@
 import Joi from "@hapi/joi";
-import { Collection, Db } from "mongodb";
 import { IEntity, TObject, TPromise } from "@lindorm-io/core";
 import { Logger } from "@lindorm-io/winston";
-import { MongoInMemoryCollection, MongoInMemoryDatabase } from "../class/MongoInMemoryConnection";
 import { RepositoryEntityNotFoundError, RepositoryEntityNotUpdatedError } from "../error";
+import { TMongoCollection, TMongoDatabase } from "../typing";
 
 export interface IRepository<Entity> {
   create(entity: Entity): Promise<Entity>;
@@ -15,7 +14,7 @@ export interface IRepository<Entity> {
 }
 
 export interface IRepositoryOptions {
-  db: Db | MongoInMemoryDatabase;
+  db: TMongoDatabase;
   logger: Logger;
 }
 
@@ -34,8 +33,8 @@ export interface IIndex {
 
 export abstract class RepositoryBase<Entity extends IEntity> implements IRepository<Entity> {
   private collectionName: string;
-  private collection: Collection | MongoInMemoryCollection;
-  private db: Db | MongoInMemoryDatabase;
+  private collection: TMongoCollection;
+  private db: TMongoDatabase;
   private indices: Array<IIndex>;
   protected logger: Logger;
   private promise: TPromise<void>;

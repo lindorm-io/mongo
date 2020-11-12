@@ -11,11 +11,16 @@ npm install --save @lindorm-io/mongo
 ### Mongo Connection
 ```typescript
 const mongo = new MongoConnection({
-  user: "user",
-  password: "password",
-  host: "https://db/location/",
-  port: 27000,
-  name: "db-name",
+  type: MongoConnectionType.MEMORY,
+  auth: {
+    user: "user",
+    password: "password",
+  },
+  url: {
+    host: "https://db/location/",
+    port: 27000,
+  },
+  databaseName: "database",
 });
 
 await mongo.connect();

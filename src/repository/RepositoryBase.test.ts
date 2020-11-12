@@ -2,7 +2,9 @@ import Joi from "@hapi/joi";
 import MockDate from "mockdate";
 import { EntityBase } from "@lindorm-io/core";
 import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
-import { MongoInMemoryConnection, MongoInMemoryDatabase } from "../class/MongoInMemoryConnection";
+import { Logger, LogLevel } from "@lindorm-io/winston";
+import { MongoConnection } from "../infrastructure";
+import { MongoConnectionType } from "../enum";
 
 jest.mock("uuid", () => ({
   v4: () => "e397bc49-849e-4df6-a536-7b9fa3574ace",
@@ -51,33 +53,39 @@ class MockRepository extends RepositoryBase<MockEntity> {
   }
 }
 
+const logger = new Logger({ packageName: "n", packageVersion: "v" });
+logger.addConsole(LogLevel.ERROR);
+
 describe("RepositoryBase.ts", () => {
-  let database: MongoInMemoryDatabase;
+  let mongo: MongoConnection;
   let repository: MockRepository;
 
   beforeEach(async () => {
-    const mongo = new MongoInMemoryConnection({
-      user: "user",
-      password: "password",
-      host: "host",
-      port: 999,
-      name: "database",
-    });
-    database = mongo.db();
-    repository = new MockRepository({
-      db: database,
-      logger: {
-        // @ts-ignore
-        createChildLogger: jest.fn(() => ({
-          debug: jest.fn(),
-        })),
+    mongo = new MongoConnection({
+      type: MongoConnectionType.MEMORY,
+      auth: {
+        user: "user",
+        password: "password",
       },
+      url: {
+        host: "host",
+        port: 999,
+      },
+      databaseName: "database",
     });
+
+    await mongo.connect();
+    const db = mongo.getDatabase();
+
+    repository = new MockRepository({ db, logger });
   });
 
   test("should run setup on any method", async () => {
     await repository.create(new MockEntity({ name: "mock" }));
-    const collection = database.collections["MockRepository"];
+
+    // Ignore that it's protected. We need to inspect.
+    // @ts-ignore
+    const collection = mongo.connection.database.collections["MockRepository"];
 
     expect(collection.indices).toMatchSnapshot();
   });
