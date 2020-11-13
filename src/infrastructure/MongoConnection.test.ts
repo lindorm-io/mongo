@@ -4,14 +4,13 @@ import { TObject } from "@lindorm-io/core";
 
 describe("MongoConnection", () => {
   let inMemoryStore: TObject<any>;
-  let connection: MongoConnection;
+  let connection1: MongoConnection;
+  let connection2: MongoConnection;
 
-  beforeEach(() => {
-    inMemoryStore = {
-      primaryDb: {},
-    };
+  beforeEach(async () => {
+    inMemoryStore = { initialized: true };
 
-    connection = new MongoConnection({
+    connection1 = new MongoConnection({
       auth: {
         user: "user",
         password: "password",
@@ -24,33 +23,47 @@ describe("MongoConnection", () => {
       },
       inMemoryStore,
     });
+    connection2 = new MongoConnection({
+      auth: {
+        user: "user",
+        password: "password",
+      },
+      databaseName: "dbName",
+      type: MongoConnectionType.MEMORY,
+      url: {
+        host: "host",
+        port: 1234,
+      },
+      inMemoryStore,
+    });
+
+    await connection1.connect();
+    await connection2.connect();
   });
 
-  test("should connect and persist", async () => {
-    await connection.connect();
-
-    const db = connection.getDatabase();
-    expect(db).toMatchSnapshot();
+  test("should persist", async () => {
+    const db = connection1.getDatabase();
 
     const collection = await db.collection("coName");
-    expect(collection).toMatchSnapshot();
-
     await collection.createIndex({ index: true }, { options: true });
-    expect(collection).toMatchSnapshot();
 
     await collection.insertOne({
       id: "1",
       group: "1",
       version: 0,
-      data: { string: "string", number: 12345 },
+      data: { string: "string", number: 123, bool: true, arr: [] },
     });
-    expect(collection).toMatchSnapshot();
-
     await collection.insertOne({
       id: "2",
       group: "1",
       version: 0,
-      data: { bool: true, arr: [] },
+      data: { string: "string", number: 123, bool: true, arr: [] },
+    });
+    await collection.insertOne({
+      id: "3",
+      group: "2",
+      version: 0,
+      data: { string: "string", number: 123, bool: true, arr: [] },
     });
     expect(collection).toMatchSnapshot();
 
@@ -72,9 +85,16 @@ describe("MongoConnection", () => {
     await expect(collection.find({ group: "1" })).resolves.toMatchSnapshot();
 
     await collection.findOneAndDelete({ id: "1" });
-    await collection.deleteMany({ group: "1" });
+    expect(inMemoryStore).toMatchSnapshot();
 
-    await connection.disconnect();
+    await collection.deleteMany({ group: "1" });
+    expect(inMemoryStore).toMatchSnapshot();
+
+    await connection1.disconnect();
+    await connection2.disconnect();
+
+    expect(connection1.getDatabase()).toMatchSnapshot();
+    expect(connection2.getDatabase()).toMatchSnapshot();
 
     expect(inMemoryStore).toMatchSnapshot();
   });

@@ -11,6 +11,35 @@ MockEntity {
 }
 `;
 
+exports[`RepositoryBase.ts should create entity 2`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "e1",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
+}
+`;
+
 exports[`RepositoryBase.ts should find entity 1`] = `
 MockEntity {
   "_created": 2020-01-01T07:00:00.000Z,
@@ -19,6 +48,35 @@ MockEntity {
   "_updated": 2020-01-01T07:00:00.000Z,
   "_version": 0,
   "name": "e1",
+}
+`;
+
+exports[`RepositoryBase.ts should find entity 2`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "e1",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
 }
 `;
 
@@ -43,6 +101,42 @@ Array [
 ]
 `;
 
+exports[`RepositoryBase.ts should find many entities 2`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "ex",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "ex",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
+}
+`;
+
 exports[`RepositoryBase.ts should remove many entities 1`] = `
 Array [
   MockEntity {
@@ -56,51 +150,84 @@ Array [
 ]
 `;
 
-exports[`RepositoryBase.ts should remove one entity 1`] = `Array []`;
-
-exports[`RepositoryBase.ts should run setup on any method 1`] = `
-Array [
-  Object {
-    "index": Object {
-      "id": 1,
-    },
-    "options": Object {
-      "unique": true,
+exports[`RepositoryBase.ts should remove many entities 2`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "e3",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
     },
   },
-]
+  "initialized": true,
+}
 `;
 
-exports[`RepositoryBase.ts should run setup on any method 2`] = `
+exports[`RepositoryBase.ts should remove one entity 1`] = `Array []`;
+
+exports[`RepositoryBase.ts should remove one entity 2`] = `
 Object {
-  "databaseName": MongoInMemoryDatabase {
-    "collections": Object {
-      "MockRepository": MongoInMemoryCollection {
-        "collectionName": "MockRepository",
-        "data": Array [
-          Object {
-            "created": 2020-01-01T07:00:00.000Z,
-            "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
-            "name": "mock",
-            "updated": 2020-01-01T07:00:00.000Z,
-            "version": 0,
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
           },
-        ],
-        "indices": Array [
-          Object {
-            "index": Object {
-              "id": 1,
-            },
-            "options": Object {
-              "unique": true,
-            },
+          "options": Object {
+            "unique": true,
           },
-        ],
-      },
+        },
+      ],
     },
-    "databaseName": "databaseName",
   },
-  "primaryDb": Object {},
+  "initialized": true,
+}
+`;
+
+exports[`RepositoryBase.ts should run setup on any method 1`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "mock",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
 }
 `;
 
@@ -112,5 +239,34 @@ MockEntity {
   "_updated": 2020-01-01T07:00:00.000Z,
   "_version": 1,
   "name": "changed",
+}
+`;
+
+exports[`RepositoryBase.ts should update entity 2`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "changed",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 1,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
 }
 `;

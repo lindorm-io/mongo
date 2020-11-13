@@ -1,17 +1,20 @@
 import { mongoPing, mongoQuery } from "./mongo-query";
 import { MongoConnectionType } from "../enum";
+import { TObject } from "@lindorm-io/core";
 
 describe("m", () => {
+  let inMemoryStore: TObject<any>;
   let callback: any;
   let getMockOptions: any;
 
   beforeEach(() => {
+    inMemoryStore = { initialized: true };
+
     callback = jest.fn();
 
     getMockOptions = () => ({
       mongoOptions: {
         type: MongoConnectionType.MEMORY,
-        databaseName: "databaseName",
         auth: {
           user: "user",
           password: "password",
@@ -20,6 +23,8 @@ describe("m", () => {
           host: "host",
           port: 1234,
         },
+        databaseName: "databaseName",
+        inMemoryStore,
       },
       logger: "mock-logger",
     });
@@ -36,11 +41,12 @@ describe("m", () => {
 
       expect(callback).toHaveBeenCalledWith({
         db: {
-          collections: {},
+          database: {},
           databaseName: "databaseName",
         },
         logger: "mock-logger",
       });
+      expect(inMemoryStore).toMatchSnapshot();
     });
   });
 

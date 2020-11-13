@@ -3,25 +3,27 @@ import { MongoInMemoryCursor } from "./MongoInMemoryCursor";
 import { TObject } from "@lindorm-io/core";
 
 export class MongoInMemoryCollection {
-  public databaseName: string;
-  public collectionName: string;
-  public indices: Array<any>;
-  public data: Array<any>;
+  public collection: TObject<any>;
 
-  constructor(collectionName: string) {
-    this.collectionName = collectionName;
-    this.indices = [];
-    this.data = [];
+  constructor(collection: TObject<any>) {
+    this.collection = collection;
+
+    if (!this.collection.indices) {
+      this.collection.indices = [];
+    }
+    if (!this.collection.data) {
+      this.collection.data = [];
+    }
   }
 
   public async createIndex(index: TObject<any>, options: TObject<any>): Promise<any> {
-    this.indices.push({ index, options });
+    this.collection.indices.push({ index, options });
 
     return Promise.resolve();
   }
 
   public async insertOne(json: TObject<any>): Promise<any> {
-    this.data.push(json);
+    this.collection.data.push(json);
 
     return Promise.resolve({
       result: {
@@ -37,7 +39,7 @@ export class MongoInMemoryCollection {
     } = filter;
 
     const query = { ...params, version: $eq };
-    const item = lodash.find(this.data, query);
+    const item = lodash.find(this.collection.data, query);
 
     if (!item) {
       return Promise.resolve({
@@ -50,9 +52,9 @@ export class MongoInMemoryCollection {
       });
     }
 
-    lodash.remove(this.data, query);
+    lodash.remove(this.collection.data, query);
 
-    this.data.push({ ...params, ...options.$set });
+    this.collection.data.push({ ...params, ...options.$set });
 
     return Promise.resolve({
       ok: true,
@@ -65,15 +67,15 @@ export class MongoInMemoryCollection {
   }
 
   public async findOne(filter: TObject<any>): Promise<any> {
-    return Promise.resolve(lodash.find(this.data, filter));
+    return Promise.resolve(lodash.find(this.collection.data, filter));
   }
 
   public async find(filter: TObject<any>): Promise<MongoInMemoryCursor> {
-    return Promise.resolve(new MongoInMemoryCursor(lodash.filter(this.data, filter)));
+    return Promise.resolve(new MongoInMemoryCursor(lodash.filter(this.collection.data, filter)));
   }
 
   public async findOneAndDelete(filter: TObject<any>): Promise<any> {
-    lodash.remove(this.data, filter);
+    lodash.remove(this.collection.data, filter);
 
     return Promise.resolve({
       ok: true,
@@ -81,9 +83,9 @@ export class MongoInMemoryCollection {
   }
 
   public async deleteMany(filter: TObject<any>): Promise<any> {
-    const array = lodash.filter(this.data, filter);
+    const array = lodash.filter(this.collection.data, filter);
 
-    lodash.remove(this.data, filter);
+    lodash.remove(this.collection.data, filter);
 
     return Promise.resolve({
       result: {

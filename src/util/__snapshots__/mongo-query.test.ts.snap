@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`m mongoQuery should connect to mongo and use callback 1`] = `
+Object {
+  "databaseName": Object {},
+  "initialized": true,
+}
+`;

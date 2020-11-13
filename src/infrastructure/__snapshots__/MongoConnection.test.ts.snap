@@ -1,140 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MongoConnection should connect and persist 1`] = `
-MongoInMemoryDatabase {
-  "collections": Object {},
-  "databaseName": "dbName",
-}
-`;
-
-exports[`MongoConnection should connect and persist 2`] = `
+exports[`MongoConnection should persist 1`] = `
 MongoInMemoryCollection {
-  "collectionName": "coName",
-  "data": Array [],
-  "indices": Array [],
+  "collection": Object {
+    "data": Array [
+      Object {
+        "data": Object {
+          "arr": Array [],
+          "bool": true,
+          "number": 123,
+          "string": "string",
+        },
+        "group": "1",
+        "id": "1",
+        "version": 0,
+      },
+      Object {
+        "data": Object {
+          "arr": Array [],
+          "bool": true,
+          "number": 123,
+          "string": "string",
+        },
+        "group": "1",
+        "id": "2",
+        "version": 0,
+      },
+      Object {
+        "data": Object {
+          "arr": Array [],
+          "bool": true,
+          "number": 123,
+          "string": "string",
+        },
+        "group": "2",
+        "id": "3",
+        "version": 0,
+      },
+    ],
+    "indices": Array [
+      Object {
+        "index": Object {
+          "index": true,
+        },
+        "options": Object {
+          "options": true,
+        },
+      },
+    ],
+  },
 }
 `;
 
-exports[`MongoConnection should connect and persist 3`] = `
+exports[`MongoConnection should persist 2`] = `
 MongoInMemoryCollection {
-  "collectionName": "coName",
-  "data": Array [],
-  "indices": Array [
-    Object {
-      "index": Object {
-        "index": true,
+  "collection": Object {
+    "data": Array [
+      Object {
+        "data": Object {
+          "arr": Array [],
+          "bool": true,
+          "number": 123,
+          "string": "string",
+        },
+        "group": "1",
+        "id": "1",
+        "version": 0,
       },
-      "options": Object {
-        "options": true,
+      Object {
+        "data": Object {
+          "arr": Array [],
+          "bool": true,
+          "number": 123,
+          "string": "string",
+        },
+        "group": "2",
+        "id": "3",
+        "version": 0,
       },
-    },
-  ],
+      Object {
+        "data": Object {
+          "arr": Array [],
+          "bool": true,
+        },
+        "group": "1",
+        "id": "2",
+        "version": 1,
+      },
+    ],
+    "indices": Array [
+      Object {
+        "index": Object {
+          "index": true,
+        },
+        "options": Object {
+          "options": true,
+        },
+      },
+    ],
+  },
 }
 `;
 
-exports[`MongoConnection should connect and persist 4`] = `
-MongoInMemoryCollection {
-  "collectionName": "coName",
-  "data": Array [
-    Object {
-      "data": Object {
-        "number": 12345,
-        "string": "string",
-      },
-      "group": "1",
-      "id": "1",
-      "version": 0,
-    },
-  ],
-  "indices": Array [
-    Object {
-      "index": Object {
-        "index": true,
-      },
-      "options": Object {
-        "options": true,
-      },
-    },
-  ],
-}
-`;
-
-exports[`MongoConnection should connect and persist 5`] = `
-MongoInMemoryCollection {
-  "collectionName": "coName",
-  "data": Array [
-    Object {
-      "data": Object {
-        "number": 12345,
-        "string": "string",
-      },
-      "group": "1",
-      "id": "1",
-      "version": 0,
-    },
-    Object {
-      "data": Object {
-        "arr": Array [],
-        "bool": true,
-      },
-      "group": "1",
-      "id": "2",
-      "version": 0,
-    },
-  ],
-  "indices": Array [
-    Object {
-      "index": Object {
-        "index": true,
-      },
-      "options": Object {
-        "options": true,
-      },
-    },
-  ],
-}
-`;
-
-exports[`MongoConnection should connect and persist 6`] = `
-MongoInMemoryCollection {
-  "collectionName": "coName",
-  "data": Array [
-    Object {
-      "data": Object {
-        "number": 12345,
-        "string": "string",
-      },
-      "group": "1",
-      "id": "1",
-      "version": 0,
-    },
-    Object {
-      "data": Object {
-        "arr": Array [],
-        "bool": true,
-      },
-      "group": "1",
-      "id": "2",
-      "version": 1,
-    },
-  ],
-  "indices": Array [
-    Object {
-      "index": Object {
-        "index": true,
-      },
-      "options": Object {
-        "options": true,
-      },
-    },
-  ],
-}
-`;
-
-exports[`MongoConnection should connect and persist 7`] = `
+exports[`MongoConnection should persist 3`] = `
 Object {
   "data": Object {
-    "number": 12345,
+    "arr": Array [],
+    "bool": true,
+    "number": 123,
     "string": "string",
   },
   "group": "1",
@@ -143,12 +116,14 @@ Object {
 }
 `;
 
-exports[`MongoConnection should connect and persist 8`] = `
+exports[`MongoConnection should persist 4`] = `
 MongoInMemoryCursor {
   "data": Array [
     Object {
       "data": Object {
-        "number": 12345,
+        "arr": Array [],
+        "bool": true,
+        "number": 123,
         "string": "string",
       },
       "group": "1",
@@ -168,27 +143,176 @@ MongoInMemoryCursor {
 }
 `;
 
-exports[`MongoConnection should connect and persist 9`] = `
+exports[`MongoConnection should persist 5`] = `
 Object {
-  "dbName": MongoInMemoryDatabase {
-    "collections": Object {
-      "coName": MongoInMemoryCollection {
-        "collectionName": "coName",
-        "data": Array [],
-        "indices": Array [
-          Object {
-            "index": Object {
-              "index": true,
-            },
-            "options": Object {
-              "options": true,
-            },
+  "dbName": Object {
+    "coName": Object {
+      "data": Array [
+        Object {
+          "data": Object {
+            "arr": Array [],
+            "bool": true,
+            "number": 123,
+            "string": "string",
           },
-        ],
-      },
+          "group": "2",
+          "id": "3",
+          "version": 0,
+        },
+        Object {
+          "data": Object {
+            "arr": Array [],
+            "bool": true,
+          },
+          "group": "1",
+          "id": "2",
+          "version": 1,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "index": true,
+          },
+          "options": Object {
+            "options": true,
+          },
+        },
+      ],
     },
-    "databaseName": "dbName",
   },
-  "primaryDb": Object {},
+  "initialized": true,
+}
+`;
+
+exports[`MongoConnection should persist 6`] = `
+Object {
+  "dbName": Object {
+    "coName": Object {
+      "data": Array [
+        Object {
+          "data": Object {
+            "arr": Array [],
+            "bool": true,
+            "number": 123,
+            "string": "string",
+          },
+          "group": "2",
+          "id": "3",
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "index": true,
+          },
+          "options": Object {
+            "options": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
+}
+`;
+
+exports[`MongoConnection should persist 7`] = `
+MongoInMemoryDatabase {
+  "database": Object {
+    "coName": Object {
+      "data": Array [
+        Object {
+          "data": Object {
+            "arr": Array [],
+            "bool": true,
+            "number": 123,
+            "string": "string",
+          },
+          "group": "2",
+          "id": "3",
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "index": true,
+          },
+          "options": Object {
+            "options": true,
+          },
+        },
+      ],
+    },
+  },
+  "databaseName": "dbName",
+}
+`;
+
+exports[`MongoConnection should persist 8`] = `
+MongoInMemoryDatabase {
+  "database": Object {
+    "coName": Object {
+      "data": Array [
+        Object {
+          "data": Object {
+            "arr": Array [],
+            "bool": true,
+            "number": 123,
+            "string": "string",
+          },
+          "group": "2",
+          "id": "3",
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "index": true,
+          },
+          "options": Object {
+            "options": true,
+          },
+        },
+      ],
+    },
+  },
+  "databaseName": "dbName",
+}
+`;
+
+exports[`MongoConnection should persist 9`] = `
+Object {
+  "dbName": Object {
+    "coName": Object {
+      "data": Array [
+        Object {
+          "data": Object {
+            "arr": Array [],
+            "bool": true,
+            "number": 123,
+            "string": "string",
+          },
+          "group": "2",
+          "id": "3",
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "index": true,
+          },
+          "options": Object {
+            "options": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
 }
 `;

@@ -64,9 +64,7 @@ describe("RepositoryBase.ts", () => {
   let db: TMongoDatabase;
 
   beforeEach(async () => {
-    inMemoryStore = {
-      primaryDb: {},
-    };
+    inMemoryStore = { initialized: true };
 
     mongo = new MongoConnection({
       type: MongoConnectionType.MEMORY,
@@ -91,10 +89,6 @@ describe("RepositoryBase.ts", () => {
   test("should run setup on any method", async () => {
     await repository.create(new MockEntity({ name: "mock" }));
 
-    // @ts-ignore
-    const collection = db.collections["MockRepository"];
-
-    expect(collection.indices).toMatchSnapshot();
     expect(inMemoryStore).toMatchSnapshot();
   });
 
@@ -103,6 +97,7 @@ describe("RepositoryBase.ts", () => {
     const created = await repository.create(e1);
 
     expect(created).toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
   });
 
   test("should update entity", async () => {
@@ -114,6 +109,7 @@ describe("RepositoryBase.ts", () => {
     const updated = await repository.update(created);
 
     expect(updated).toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
   });
 
   test("should find entity", async () => {
@@ -123,6 +119,7 @@ describe("RepositoryBase.ts", () => {
     const found = await repository.find({ name: "e1" });
 
     expect(found).toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
   });
 
   test("should find many entities", async () => {
@@ -135,6 +132,7 @@ describe("RepositoryBase.ts", () => {
     const found = await repository.findMany({ name: "ex" });
 
     expect(found).toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
   });
 
   test("should remove one entity", async () => {
@@ -147,6 +145,7 @@ describe("RepositoryBase.ts", () => {
     await repository.remove(e1);
 
     await expect(repository.findMany({})).resolves.toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
   });
 
   test("should remove many entities", async () => {
@@ -161,5 +160,6 @@ describe("RepositoryBase.ts", () => {
     await repository.removeMany({ name: "ex" });
 
     await expect(repository.findMany({})).resolves.toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
   });
 });
