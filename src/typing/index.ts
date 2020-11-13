@@ -1,6 +1,7 @@
 import { Collection, Db, MongoClient } from "mongodb";
 import { MongoConnectionType } from "../enum";
 import { MongoInMemoryClient, MongoInMemoryCollection, MongoInMemoryDatabase } from "../class";
+import { TObject } from "@lindorm-io/core";
 
 export type TMongoClient = MongoClient | MongoInMemoryClient;
 export type TMongoCollection = Collection | MongoInMemoryCollection;
@@ -26,6 +27,7 @@ export interface IMongoConnectionBaseOptions {
   auth: IMongoConnectionAuth;
   url: IMongoConnectionUrl;
   databaseName: string;
+  inMemoryStore?: TObject<any>;
 }
 
 export interface IMongoConnectionOptions extends IMongoConnectionBaseOptions {

@@ -1,11 +1,16 @@
 import { MongoConnectionType } from "../enum";
 import { MongoConnection } from "./MongoConnection";
-import { MONGO_IN_MEMORY_DB } from "../class";
+import { TObject } from "@lindorm-io/core";
 
 describe("MongoConnection", () => {
+  let inMemoryStore: TObject<any>;
   let connection: MongoConnection;
 
   beforeEach(() => {
+    inMemoryStore = {
+      primaryDb: {},
+    };
+
     connection = new MongoConnection({
       auth: {
         user: "user",
@@ -17,22 +22,21 @@ describe("MongoConnection", () => {
         host: "host",
         port: 1234,
       },
+      inMemoryStore,
     });
   });
 
   test("should connect and persist", async () => {
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
-
     await connection.connect();
 
     const db = connection.getDatabase();
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
+    expect(db).toMatchSnapshot();
 
     const collection = await db.collection("coName");
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
+    expect(collection).toMatchSnapshot();
 
     await collection.createIndex({ index: true }, { options: true });
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
+    expect(collection).toMatchSnapshot();
 
     await collection.insertOne({
       id: "1",
@@ -40,7 +44,7 @@ describe("MongoConnection", () => {
       version: 0,
       data: { string: "string", number: 12345 },
     });
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
+    expect(collection).toMatchSnapshot();
 
     await collection.insertOne({
       id: "2",
@@ -48,7 +52,7 @@ describe("MongoConnection", () => {
       version: 0,
       data: { bool: true, arr: [] },
     });
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
+    expect(collection).toMatchSnapshot();
 
     await collection.findOneAndUpdate(
       { id: "2", version: { $eq: 0 } },
@@ -61,7 +65,7 @@ describe("MongoConnection", () => {
         },
       },
     );
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
+    expect(collection).toMatchSnapshot();
 
     await expect(collection.findOne({ id: "1" })).resolves.toMatchSnapshot();
 
@@ -71,6 +75,7 @@ describe("MongoConnection", () => {
     await collection.deleteMany({ group: "1" });
 
     await connection.disconnect();
-    expect(MONGO_IN_MEMORY_DB).toMatchSnapshot();
+
+    expect(inMemoryStore).toMatchSnapshot();
   });
 });

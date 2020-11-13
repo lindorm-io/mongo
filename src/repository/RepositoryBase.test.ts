@@ -1,11 +1,11 @@
 import Joi from "@hapi/joi";
 import MockDate from "mockdate";
-import { EntityBase } from "@lindorm-io/core";
+import { EntityBase, TObject } from "@lindorm-io/core";
 import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
 import { Logger, LogLevel } from "@lindorm-io/winston";
-import { MONGO_IN_MEMORY_DB } from "../class";
 import { MongoConnection } from "../infrastructure";
 import { MongoConnectionType } from "../enum";
+import { TMongoDatabase } from "../typing";
 
 jest.mock("uuid", () => ({
   v4: () => "e397bc49-849e-4df6-a536-7b9fa3574ace",
@@ -58,10 +58,16 @@ const logger = new Logger({ packageName: "n", packageVersion: "v" });
 logger.addConsole(LogLevel.ERROR);
 
 describe("RepositoryBase.ts", () => {
+  let inMemoryStore: TObject<any>;
   let mongo: MongoConnection;
   let repository: MockRepository;
+  let db: TMongoDatabase;
 
   beforeEach(async () => {
+    inMemoryStore = {
+      primaryDb: {},
+    };
+
     mongo = new MongoConnection({
       type: MongoConnectionType.MEMORY,
       auth: {
@@ -73,10 +79,11 @@ describe("RepositoryBase.ts", () => {
         port: 999,
       },
       databaseName: "databaseName",
+      inMemoryStore,
     });
 
     await mongo.connect();
-    const db = mongo.getDatabase();
+    db = mongo.getDatabase();
 
     repository = new MockRepository({ db, logger });
   });
@@ -84,9 +91,11 @@ describe("RepositoryBase.ts", () => {
   test("should run setup on any method", async () => {
     await repository.create(new MockEntity({ name: "mock" }));
 
-    const collection = MONGO_IN_MEMORY_DB["databaseName"]["MockRepository"];
+    // @ts-ignore
+    const collection = db.collections["MockRepository"];
 
     expect(collection.indices).toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
   });
 
   test("should create entity", async () => {
