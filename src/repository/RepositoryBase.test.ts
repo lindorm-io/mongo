@@ -3,6 +3,7 @@ import MockDate from "mockdate";
 import { EntityBase } from "@lindorm-io/core";
 import { IRepositoryOptions, RepositoryBase } from "./RepositoryBase";
 import { Logger, LogLevel } from "@lindorm-io/winston";
+import { MONGO_IN_MEMORY_DB } from "../class";
 import { MongoConnection } from "../infrastructure";
 import { MongoConnectionType } from "../enum";
 
@@ -71,7 +72,7 @@ describe("RepositoryBase.ts", () => {
         host: "host",
         port: 999,
       },
-      databaseName: "database",
+      databaseName: "databaseName",
     });
 
     await mongo.connect();
@@ -83,9 +84,7 @@ describe("RepositoryBase.ts", () => {
   test("should run setup on any method", async () => {
     await repository.create(new MockEntity({ name: "mock" }));
 
-    // Ignore that it's protected. We need to inspect.
-    // @ts-ignore
-    const collection = mongo.connection.database.collections["MockRepository"];
+    const collection = MONGO_IN_MEMORY_DB["databaseName"]["MockRepository"];
 
     expect(collection.indices).toMatchSnapshot();
   });

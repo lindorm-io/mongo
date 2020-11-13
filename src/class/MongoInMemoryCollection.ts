@@ -1,23 +1,34 @@
 import lodash from "lodash";
+import { MONGO_IN_MEMORY_DB } from "./MongoInMemoryClient";
 import { MongoInMemoryCursor } from "./MongoInMemoryCursor";
 import { TObject } from "@lindorm-io/core";
 
 export class MongoInMemoryCollection {
-  public data: Array<TObject<any>>;
-  public indices: Array<TObject<any>>;
+  public databaseName: string;
+  public collectionName: string;
 
-  constructor() {
-    this.indices = [];
-    this.data = [];
+  constructor(databaseName: string, collectionName: string) {
+    this.databaseName = databaseName;
+    this.collectionName = collectionName;
+
+    if (!MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].indices) {
+      MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].indices = [];
+    }
+
+    if (!MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data) {
+      MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data = [];
+    }
   }
 
   public async createIndex(index: TObject<any>, options: TObject<any>): Promise<any> {
-    this.indices.push({ index, options });
+    MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].indices.push({ index, options });
+
     return Promise.resolve();
   }
 
   public async insertOne(json: TObject<any>): Promise<any> {
-    this.data.push(json);
+    MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data.push(json);
+
     return Promise.resolve({
       result: {
         ok: true,
@@ -30,8 +41,10 @@ export class MongoInMemoryCollection {
       version: { $eq },
       ...params
     } = filter;
+
     const query = { ...params, version: $eq };
-    const item = lodash.find(this.data, query);
+    const item = lodash.find(MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data, query);
+
     if (!item) {
       return Promise.resolve({
         ok: false,
@@ -42,8 +55,11 @@ export class MongoInMemoryCollection {
         },
       });
     }
-    lodash.remove(this.data, query);
-    this.data.push({ ...params, ...options.$set });
+
+    lodash.remove(MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data, query);
+
+    MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data.push({ ...params, ...options.$set });
+
     return Promise.resolve({
       ok: true,
       value: 1,
@@ -55,23 +71,28 @@ export class MongoInMemoryCollection {
   }
 
   public async findOne(filter: TObject<any>): Promise<any> {
-    return Promise.resolve(lodash.find(this.data, filter));
+    return Promise.resolve(lodash.find(MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data, filter));
   }
 
   public async find(filter: TObject<any>): Promise<MongoInMemoryCursor> {
-    return Promise.resolve(new MongoInMemoryCursor(lodash.filter(this.data, filter)));
+    return Promise.resolve(
+      new MongoInMemoryCursor(lodash.filter(MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data, filter)),
+    );
   }
 
   public async findOneAndDelete(filter: TObject<any>): Promise<any> {
-    lodash.remove(this.data, filter);
+    lodash.remove(MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data, filter);
+
     return Promise.resolve({
       ok: true,
     });
   }
 
   public async deleteMany(filter: TObject<any>): Promise<any> {
-    const array = lodash.filter(this.data, filter);
-    lodash.remove(this.data, filter);
+    const array = lodash.filter(MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data, filter);
+
+    lodash.remove(MONGO_IN_MEMORY_DB[this.databaseName][this.collectionName].data, filter);
+
     return Promise.resolve({
       result: {
         ok: true,
