@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@lindorm-io/core": "^0.1.4",
+    "@lindorm-io/core": "^0.1.5",
     "@lindorm-io/winston": "^0.1.0",
     "lodash": "^4.17.20",
     "mongodb": "^3.6.3"

@@ -1,5 +1,5 @@
 import Joi from "@hapi/joi";
-import { IEntity, TObject, TPromise } from "@lindorm-io/core";
+import { EntityCreationError, IEntity, TObject, TPromise } from "@lindorm-io/core";
 import { Logger } from "@lindorm-io/winston";
 import { RepositoryEntityNotFoundError, RepositoryEntityNotUpdatedError } from "../error";
 import { TMongoCollection, TMongoDatabase } from "../typing";
@@ -76,6 +76,14 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
 
   async create(entity: Entity): Promise<Entity> {
     const start = Date.now();
+
+    try {
+      entity.create();
+    } catch (err) {
+      if (!(err instanceof EntityCreationError)) {
+        throw err;
+      }
+    }
 
     const json = this.getEntityJSON(entity);
 
@@ -170,6 +178,17 @@ export abstract class RepositoryBase<Entity extends IEntity> implements IReposit
     }
 
     return entities;
+  }
+
+  async findOrCreate(filter: TObject<any>): Promise<Entity> {
+    try {
+      return await this.find(filter);
+    } catch (err) {
+      if (err instanceof RepositoryEntityNotFoundError) {
+        return await this.create(this.createEntity(filter as IEntity));
+      }
+      throw err;
+    }
   }
 
   async remove(entity: Entity): Promise<void> {

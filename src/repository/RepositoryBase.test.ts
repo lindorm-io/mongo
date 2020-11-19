@@ -15,10 +15,16 @@ MockDate.set("2020-01-01 08:00:00.000");
 
 class MockEntity extends EntityBase {
   public name: string;
+  public hasCreatedFunctionBeenCalled: boolean;
 
   constructor(options: any) {
     super(options);
     this.name = options.name;
+    this.hasCreatedFunctionBeenCalled = options.hasCreatedFunctionBeenCalled;
+  }
+
+  create() {
+    this.hasCreatedFunctionBeenCalled = true;
   }
 }
 
@@ -132,6 +138,23 @@ describe("RepositoryBase.ts", () => {
     const found = await repository.findMany({ name: "ex" });
 
     expect(found).toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
+  });
+
+  test("should find an entity and not create", async () => {
+    const e1 = new MockEntity({ name: "found-and-exists" });
+    await repository.create(e1);
+
+    const found = await repository.findOrCreate({ id: e1.id });
+
+    expect(found).toMatchSnapshot();
+    expect(inMemoryStore).toMatchSnapshot();
+  });
+
+  test("should create entity when not found", async () => {
+    const created = await repository.findOrCreate({ id: "86ca6243-4813-42f5-9829-582b6303c10a", name: "new-entity" });
+
+    expect(created).toMatchSnapshot();
     expect(inMemoryStore).toMatchSnapshot();
   });
 

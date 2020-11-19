@@ -7,6 +7,7 @@ MockEntity {
   "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
   "_updated": 2020-01-01T07:00:00.000Z,
   "_version": 0,
+  "hasCreatedFunctionBeenCalled": true,
   "name": "e1",
 }
 `;
@@ -40,6 +41,88 @@ Object {
 }
 `;
 
+exports[`RepositoryBase.ts should create entity when not found 1`] = `
+MockEntity {
+  "_created": 2020-01-01T07:00:00.000Z,
+  "_events": Array [],
+  "_id": "86ca6243-4813-42f5-9829-582b6303c10a",
+  "_updated": 2020-01-01T07:00:00.000Z,
+  "_version": 0,
+  "hasCreatedFunctionBeenCalled": true,
+  "name": "new-entity",
+}
+`;
+
+exports[`RepositoryBase.ts should create entity when not found 2`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "86ca6243-4813-42f5-9829-582b6303c10a",
+          "name": "new-entity",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
+}
+`;
+
+exports[`RepositoryBase.ts should find an entity and not create 1`] = `
+MockEntity {
+  "_created": 2020-01-01T07:00:00.000Z,
+  "_events": Array [],
+  "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+  "_updated": 2020-01-01T07:00:00.000Z,
+  "_version": 0,
+  "hasCreatedFunctionBeenCalled": undefined,
+  "name": "found-and-exists",
+}
+`;
+
+exports[`RepositoryBase.ts should find an entity and not create 2`] = `
+Object {
+  "databaseName": Object {
+    "MockRepository": Object {
+      "data": Array [
+        Object {
+          "created": 2020-01-01T07:00:00.000Z,
+          "id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
+          "name": "found-and-exists",
+          "updated": 2020-01-01T07:00:00.000Z,
+          "version": 0,
+        },
+      ],
+      "indices": Array [
+        Object {
+          "index": Object {
+            "id": 1,
+          },
+          "options": Object {
+            "unique": true,
+          },
+        },
+      ],
+    },
+  },
+  "initialized": true,
+}
+`;
+
 exports[`RepositoryBase.ts should find entity 1`] = `
 MockEntity {
   "_created": 2020-01-01T07:00:00.000Z,
@@ -47,6 +130,7 @@ MockEntity {
   "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
   "_updated": 2020-01-01T07:00:00.000Z,
   "_version": 0,
+  "hasCreatedFunctionBeenCalled": undefined,
   "name": "e1",
 }
 `;
@@ -88,6 +172,7 @@ Array [
     "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
     "_updated": 2020-01-01T07:00:00.000Z,
     "_version": 0,
+    "hasCreatedFunctionBeenCalled": undefined,
     "name": "ex",
   },
   MockEntity {
@@ -96,6 +181,7 @@ Array [
     "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
     "_updated": 2020-01-01T07:00:00.000Z,
     "_version": 0,
+    "hasCreatedFunctionBeenCalled": undefined,
     "name": "ex",
   },
 ]
@@ -145,6 +231,7 @@ Array [
     "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
     "_updated": 2020-01-01T07:00:00.000Z,
     "_version": 0,
+    "hasCreatedFunctionBeenCalled": undefined,
     "name": "e3",
   },
 ]
@@ -238,6 +325,7 @@ MockEntity {
   "_id": "e397bc49-849e-4df6-a536-7b9fa3574ace",
   "_updated": 2020-01-01T07:00:00.000Z,
   "_version": 1,
+  "hasCreatedFunctionBeenCalled": true,
   "name": "changed",
 }
 `;
