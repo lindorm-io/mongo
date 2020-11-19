@@ -9,6 +9,7 @@ export interface IRepository<Entity> {
   update(entity: Entity): Promise<Entity>;
   find(filter: TObject<any>): Promise<Entity>;
   findMany(filter: TObject<any>): Promise<Array<Entity>>;
+  findOrCreate(filter: TObject<any>): Promise<Entity>;
   remove(entity: Entity): Promise<void>;
   removeMany(filter: TObject<any>): Promise<void>;
 }
