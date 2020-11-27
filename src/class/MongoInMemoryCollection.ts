@@ -17,7 +17,9 @@ export class MongoInMemoryCollection {
   }
 
   public async createIndex(index: TObject<any>, options: TObject<any>): Promise<any> {
-    this.collection.indices.push({ index, options });
+    if (!this.collection.indices.length) {
+      this.collection.indices.push({ index, options });
+    }
 
     return Promise.resolve();
   }
